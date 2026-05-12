@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="RQR3D: Reparametrizing the regression targets for BEV-based 3D object detection - Ozsel Kilinc, Cem Tarhan">
+  <meta name="description" content="RQR3D introduces a restricted quadrilateral representation for BEV-based 3D object detection and achieves strong camera-radar results on nuScenes.">
+  <meta name="keywords" content="RQR3D, BEV, 3D object detection, camera-radar fusion, autonomous driving, nuScenes, restricted quadrilateral representation, computer vision">
+  <meta name="author" content="Ozsel Kilinc, Cem Tarhan">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="RQR3D Project Page">
+  <meta property="og:title" content="RQR3D: Reparametrizing the regression targets for BEV-based 3D object detection">
+  <meta property="og:description" content="A restricted quadrilateral representation that turns BEV 3D box regression into a keypoint regression problem and supports efficient camera-radar fusion.">
+  <meta property="og:url" content="https://www.google.com">
+  <meta property="og:image" content="static/images/Schematic.png">
+  <meta property="og:image:alt" content="RQR3D model architecture">
+  <meta property="article:published_time" content="2025-05-25T00:00:00.000Z">
+  <meta property="article:author" content="Ozsel Kilinc">
+  <meta property="article:author" content="Cem Tarhan">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="3D object detection">
+  <meta property="article:tag" content="camera-radar fusion">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="RQR3D: Reparametrizing the regression targets for BEV-based 3D object detection">
+  <meta name="twitter:description" content="Restricted quadrilateral representation for BEV 3D object detection with strong nuScenes camera-radar performance.">
+  <meta name="twitter:image" content="static/images/Schematic.png">
+  <meta name="twitter:image:alt" content="RQR3D model architecture">
+
+  <meta name="citation_title" content="RQR3D: Reparametrizing the regression targets for BEV-based 3D object detection">
+  <meta name="citation_author" content="Kilinc, Ozsel">
+  <meta name="citation_author" content="Tarhan, Cem">
+  <meta name="citation_publication_date" content="2025">
+  <meta name="citation_arxiv_id" content="2505.17732">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2505.17732">
+
+  <title>RQR3D - Ozsel Kilinc, Cem Tarhan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v6.4.0/js/all.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "RQR3D: Reparametrizing the regression targets for BEV-based 3D object detection",
+    "description": "RQR3D introduces Restricted Quadrilateral Representation for BEV-based 3D object detection, replacing angle-based regression targets with horizontal box and keypoint-style offsets.",
+    "author": [
+      {"@type": "Person", "name": "Ozsel Kilinc", "affiliation": {"@type": "Organization", "name": "Amazon Lab 126"}},
+      {"@type": "Person", "name": "Cem Tarhan", "affiliation": {"@type": "Organization", "name": "Togg Trutek"}}
+    ],
+    "datePublished": "2025-05-25",
+    "url": "https://arxiv.org/abs/2505.17732",
+    "image": "static/images/Schematic.png",
+    "keywords": ["BEV", "3D object detection", "camera-radar fusion", "autonomous driving", "nuScenes"],
+    "isAccessibleForFree": true
+  }
+  </script>
+
+  <style>
+    :root { --accent: #6c63ff; --accent-dark: #362f78; --soft: #f6f8ff; --ink: #172033; }
+    html { scroll-behavior: smooth; }
+    body { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); }
+    .hero-gradient { background: radial-gradient(circle at top left, #eef3ff 0, #ffffff 45%, #f8fbff 100%); }
+    .publication-title { font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; }
+    .author-block a { color: #2155cd; font-weight: 600; }
+    .tagline { max-width: 920px; margin: 1.25rem auto 0; font-size: 1.15rem; color: #4b587c; }
+    .button.is-rqr { background: var(--accent-dark); color: white; border: none; }
+    .button.is-rqr:hover { background: #201a5d; color: white; }
+    .section-title { font-weight: 800; letter-spacing: -0.025em; }
+    .figure-card, .metric-card, .method-card { background: white; border: 1px solid #e8ecf8; border-radius: 18px; box-shadow: 0 18px 45px rgba(34, 51, 84, 0.08); overflow: hidden; }
+    .figure-card img { width: 100%; display: block; }
+    .caption { padding: 1rem 1.25rem; color: #4a5877; font-size: 0.95rem; }
+    .metric-card { padding: 1.2rem; height: 100%; }
+    .metric { font-size: 2rem; font-weight: 800; color: var(--accent-dark); line-height: 1; }
+    .metric-label { font-size: 0.9rem; color: #5e6a86; margin-top: 0.35rem; }
+    .method-card { padding: 1.4rem; height: 100%; }
+    .method-card h3 { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.6rem; }
+    .method-card p { color: #4b587c; }
+    .soft-section { background: var(--soft); }
+    .result-table th { background: #eef2ff; }
+    pre { border-radius: 14px; background: #101828; color: #f8fafc; padding: 1.2rem; white-space: pre-wrap; }
+    .copy-bibtex-btn { border: 0; border-radius: 999px; background: var(--accent-dark); color: white; padding: 0.5rem 0.9rem; cursor: pointer; }
+    .footer { background: #101828; color: #d0d5dd; }
+    .footer a { color: #c7d7ff; }
+  </style>
+</head>
+<body>
+  <main id="main-content">
+    <section class="hero hero-gradient is-medium">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <h1 class="title is-1 publication-title">RQR3D: Reparametrizing the Regression Targets for BEV-based 3D Object Detection</h1>
+          <div class="is-size-5 publication-authors mt-4">
+            <span class="author-block"><a href="https://scholar.google.com/citations?hl=en&user=XHqdGk8AAAAJ" target="_blank" rel="noopener">Ozsel Kilinc</a><sup>†*</sup></span>
+            <span class="mx-2">·</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=5xplFFsAAAAJ&hl=en" target="_blank" rel="noopener">Cem Tarhan</a><sup>†</sup></span>
+          </div>
+          <div class="is-size-6 publication-authors mt-2">
+            <span>Amazon Lab 126 · Togg Trutek</span><br>
+            <span><small><sup>†</sup>Equal contribution. <sup>*</sup>Work done prior to joining Amazon.</small></span>
+          </div>
+          <p class="tagline">A restricted quadrilateral representation for BEV-based 3D object detection that replaces discontinuity-prone angle regression with horizontal-box and keypoint-style targets, paired with an efficient camera-radar fusion architecture.</p>
+          <div class="publication-links mt-5">
+            <a href="https://www.google.com" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-rqr"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a>
+            <a href="https://arxiv.org/abs/2505.17732" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a>
+            <a href="https://www.google.com" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-chalkboard"></i></span><span>Presentation</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="figure-card">
+          <img src="static/images/Schematic.png" alt="RQR3D model architecture schematic" loading="lazy">
+          <p class="caption has-text-centered">RQR3D combines multi-view image features, a lightweight radar backbone, temporal BEV feature warping, a BEV backbone, and task-specific detection and segmentation heads.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 section-title">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>Accurate, fast, and reliable 3D perception is essential for autonomous driving. BEV-based 3D perception offers strong spatial understanding and planner-friendly outputs, yet existing methods typically rely on angle-based representations that can suffer from discontinuities and learning instability. RQR3D introduces <strong>Restricted Quadrilateral Representation</strong>, which regresses the smallest horizontal bounding box around an oriented box and the offsets between the corners of these boxes. This turns oriented 3D object detection into a keypoint regression problem while preserving rectangular cuboid geometry.</p>
+              <p>The method is integrated into an anchor-free, single-stage detector and paired with a simplified radar fusion backbone using standard 2D convolutions over BEV-mapped radar features. On nuScenes, RQR3D reaches strong camera-radar 3D object detection performance, including <strong>67.5 NDS</strong> and <strong>59.7 mAP</strong> on the test set with reduced translation and orientation errors.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Restricted Quadrilateral Representation</h2>
+        <div class="figure-card mt-4">
+          <img src="static/images/RQRCore.png" alt="RQR3D restricted quadrilateral parametrization" loading="lazy">
+          <p class="caption has-text-centered">RQR3D represents an oriented BEV box using the smallest enclosing horizontal box plus the shortest offsets from the topmost and rightmost oriented-box corners. Additional targets resolve the 180-degree ambiguity.</p>
+        </div>
+        <div class="columns mt-5">
+          <div class="column">
+            <div class="method-card">
+              <h3>1. Enclose the oriented box</h3>
+              <p>For the BEV bottom face, RQR3D first finds the smallest axis-aligned box defined by <em>x<sub>min</sub>, y<sub>min</sub>, x<sub>max</sub>, y<sub>max</sub></em>.</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="method-card">
+              <h3>2. Regress offsets</h3>
+              <p>It regresses <em>u</em> and <em>v</em>, the shortest offsets between the horizontal box and the topmost/rightmost corners, together with their binary argmin indices.</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="method-card">
+              <h3>3. Resolve orientation</h3>
+              <p>The auxiliary <em>d<sub>x</sub>, d<sub>y</sub></em> targets encode the direction from the center of the V<sub>1</sub>V<sub>2</sub> edge to the box center, recovering the full orientation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Method Highlights</h2>
+        <div class="columns is-multiline mt-4">
+          <div class="column is-half">
+            <div class="method-card">
+              <h3>Anchor-free 3D detection head</h3>
+              <p>The detector adapts FCOS to BEV-based 3D detection, predicting horizontal-box distances, RQR3D keypoint targets, centerness, objectness, class logits, height, depth, and velocity.</p>
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="method-card">
+              <h3>Objectness for class imbalance</h3>
+              <p>An auxiliary objectness head separates foreground and background pixels, allowing localization-related losses to be learned even when the exact class label is difficult.</p>
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="method-card">
+              <h3>Lightweight radar backbone</h3>
+              <p>Radar points are projected into a higher-dimensional feature space, mapped directly onto a BEV grid, and processed with dense 2D convolutions instead of sparse-convolution or voxel-grouping pipelines.</p>
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="method-card">
+              <h3>General detection representation</h3>
+              <p>The representation is compatible with multiple detector families, including the FCOS-style one-stage head and a DETR3D-style transformer configuration.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">nuScenes Results</h2>
+        <div class="columns mt-4">
+          <div class="column">
+            <div class="metric-card has-text-centered"><div class="metric">67.5</div><div class="metric-label">NDS on nuScenes test<br>with InternImage-B</div></div>
+          </div>
+          <div class="column">
+            <div class="metric-card has-text-centered"><div class="metric">59.7</div><div class="metric-label">mAP on nuScenes test<br>with InternImage-B</div></div>
+          </div>
+          <div class="column">
+            <div class="metric-card has-text-centered"><div class="metric">0.356</div><div class="metric-label">mATE on nuScenes test<br>with InternImage-B</div></div>
+          </div>
+          <div class="column">
+            <div class="metric-card has-text-centered"><div class="metric">17.4</div><div class="metric-label">RTX 3090-equivalent FPS<br>with 7 temporal frames</div></div>
+          </div>
+        </div>
+
+        <div class="table-container mt-5">
+          <table class="table is-fullwidth is-bordered is-hoverable result-table">
+            <thead>
+              <tr><th>Setting</th><th>Method</th><th>NDS</th><th>mAP</th><th>mATE</th><th>mAOE</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Test, C+R, ConvNeXt-B</td><td>RQR3D</td><td>66.6</td><td>59.2</td><td>0.361</td><td>0.341</td></tr>
+              <tr><td>Test, C+R, InternImage-B</td><td>RQR3D</td><td><strong>67.5</strong></td><td><strong>59.7</strong></td><td><strong>0.356</strong></td><td><strong>0.298</strong></td></tr>
+              <tr><td>Single frame, 704×256, R50</td><td>RQR3D</td><td>53.9</td><td>44.0</td><td>0.497</td><td>0.453</td></tr>
+              <tr><td>Transformer variant, C+R</td><td>RQR3D</td><td>51.1</td><td>42.0</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="level">
+          <div class="level-left"><h2 class="title is-3 section-title">BibTeX</h2></div>
+          <div class="level-right"><button class="copy-bibtex-btn" onclick="copyBibTeX()"><i class="fas fa-copy"></i> <span id="copy-text">Copy</span></button></div>
+        </div>
+        <pre id="bibtex-code"><code>@article{kilinctarhan2025rqr3d,
+  title={RQR3D: Reparametrizing the regression targets for BEV-based 3D object detection},
+  author={Kilinc, Ozsel and Tarhan, Cem},
+  journal={arXiv preprint arXiv:2505.17732},
+  year={2025},
+  url={https://arxiv.org/abs/2505.17732}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container is-max-desktop">
+      <div class="content has-text-centered">
+        <p>Project page for <strong>RQR3D</strong>.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function copyBibTeX() {
+      const code = document.getElementById('bibtex-code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const label = document.getElementById('copy-text');
+        label.textContent = 'Copied';
+        setTimeout(() => label.textContent = 'Copy', 1600);
+      });
+    }
+  </script>
+</body>
+</html>
