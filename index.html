@@ -14,7 +14,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="RQR3D Project Page">
   <meta property="og:title" content="RQR3D: Reparametrizing the regression targets for BEV-based 3D object detection">
-  <meta property="og:description" content="A restricted quadrilateral representation that turns BEV 3D box regression into a keypoint regression problem and supports efficient camera-radar fusion.[...]">
+  <meta property="og:description" content="A restricted quadrilateral representation that turns BEV 3D box regression into a keypoint regression problem and supports efficient camera-radar fusion.">
   <meta property="og:url" content="https://www.google.com">
   <meta property="og:image" content="static/images/Schematic.png">
   <meta property="og:image:alt" content="RQR3D model architecture">
@@ -51,7 +51,7 @@
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
     "headline": "RQR3D: Reparametrizing the regression targets for BEV-based 3D object detection",
-    "description": "RQR3D introduces Restricted Quadrilateral Representation for BEV-based 3D object detection, replacing angle-based regression targets with horizontal box and keypoint-style offsets.[...]",
+    "description": "RQR3D introduces Restricted Quadrilateral Representation for BEV-based 3D object detection, replacing angle-based regression targets with horizontal box and keypoint-style offsets.",
     "author": [
       {"@type": "Person", "name": "Ozsel Kilinc", "affiliation": {"@type": "Organization", "name": "Amazon Lab 126"}},
       {"@type": "Person", "name": "Cem Tarhan", "affiliation": {"@type": "Organization", "name": "Togg Trutek"}}
@@ -105,14 +105,14 @@
           </div>
           <div class="is-size-6 publication-authors mt-2">
             <span>Amazon Lab 126 · Togg Trutek</span><br>
-            <span><small><sup>†</sup>Equal contribution. <sup>*</sup>Work done prior to joining Amazon.</small></span><br>
-            <span><small>CVPR 2026</small></span>
+            <span><small><sup>†</sup>Equal contribution. <sup>*</sup>Work done prior to joining Amazon.</small></span>
           </div>
-          <p class="tagline">A restricted quadrilateral representation for BEV-based 3D object detection that replaces discontinuity-prone angle regression with horizontal-box and keypoint-style [...]</p>
+          <p class="tagline">A restricted quadrilateral representation for BEV-based 3D object detection that replaces discontinuity-prone angle regression with horizontal-box and keypoint-style targets, paired with an efficient camera-radar fusion architecture.</p>
+          <p class="tagline">CVPR 2026</p>
           <div class="publication-links mt-5">
-            <a href="https://www.google.com" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-rqr"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Pape[...]</span></a>
-            <a href="https://arxiv.org/abs/2505.17732" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="ai ai-arxiv"></i></span><span>[...]</span></a>
-            <a href="https://www.google.com" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-chalkboard"></i></span><span>P[...]</span></a>
+            <a href="https://www.google.com" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-rqr"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a>
+            <a href="https://arxiv.org/abs/2505.17732" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a>
+            <a href="https://www.google.com" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-chalkboard"></i></span><span>Presentation</span></a>
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
       <div class="container is-max-desktop">
         <div class="figure-card">
           <img src="static/images/Schematic.png" alt="RQR3D model architecture schematic" loading="lazy">
-          <p class="caption has-text-centered">RQR3D combines multi-view image features, a lightweight radar backbone, temporal BEV feature warping, a BEV backbone, and task-specific detection an[...]</p>
+          <p class="caption has-text-centered">RQR3D combines multi-view image features, a lightweight radar backbone, temporal BEV feature warping, a BEV backbone, and task-specific detection and segmentation heads.</p>
         </div>
       </div>
     </section>
@@ -133,8 +133,8 @@
           <div class="column is-four-fifths">
             <h2 class="title is-3 section-title">Abstract</h2>
             <div class="content has-text-justified">
-              <p>Accurate, fast, and reliable 3D perception is essential for autonomous driving. BEV-based 3D perception offers strong spatial understanding and planner-friendly outputs, yet exis[...]</p>
-              <p>The method is integrated into an anchor-free, single-stage detector and paired with a simplified radar fusion backbone using standard 2D convolutions over BEV-mapped radar featur[...]</p>
+              <p>Accurate, fast, and reliable 3D perception is essential for autonomous driving. BEV-based 3D perception offers strong spatial understanding and planner-friendly outputs, yet existing methods typically rely on angle-based representations that can suffer from discontinuities and learning instability. RQR3D introduces <strong>Restricted Quadrilateral Representation</strong>, which regresses the smallest horizontal bounding box around an oriented box and the offsets between the corners of these boxes. This turns oriented 3D object detection into a keypoint regression problem while preserving rectangular cuboid geometry.</p>
+              <p>The method is integrated into an anchor-free, single-stage detector and paired with a simplified radar fusion backbone using standard 2D convolutions over BEV-mapped radar features. On nuScenes, RQR3D reaches strong camera-radar 3D object detection performance, including <strong>67.5 NDS</strong> and <strong>59.7 mAP</strong> on the test set with reduced translation and orientation errors.</p>
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@
         <h2 class="title is-3 section-title has-text-centered">Restricted Quadrilateral Representation</h2>
         <div class="figure-card mt-4">
           <img src="static/images/RQRCore.png" alt="RQR3D restricted quadrilateral parametrization" loading="lazy">
-          <p class="caption has-text-centered">RQR3D represents an oriented BEV box using the smallest enclosing horizontal box plus the shortest offsets from the topmost and rightmost oriented-b[...]</p>
+          <p class="caption has-text-centered">RQR3D represents an oriented BEV box using the smallest enclosing horizontal box plus the shortest offsets from the topmost and rightmost oriented-box corners. Additional targets resolve the 180-degree ambiguity.</p>
         </div>
         <div class="columns mt-5">
           <div class="column">
@@ -164,7 +164,7 @@
           <div class="column">
             <div class="method-card">
               <h3>3. Resolve orientation</h3>
-              <p>The auxiliary <em>d<sub>x</sub>, d<sub>y</sub></em> targets encode the direction from the center of the V<sub>1</sub>V<sub>2</sub> edge to the box center, recovering the full ori[...]</p>
+              <p>The auxiliary <em>d<sub>x</sub>, d<sub>y</sub></em> targets encode the direction from the center of the V<sub>1</sub>V<sub>2</sub> edge to the box center, recovering the full orientation.</p>
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@
           <div class="column is-half">
             <div class="method-card">
               <h3>Anchor-free 3D detection head</h3>
-              <p>The detector adapts FCOS to BEV-based 3D detection, predicting horizontal-box distances, RQR3D keypoint targets, centerness, objectness, class logits, height, depth, and velocity[...]</p>
+              <p>The detector adapts FCOS to BEV-based 3D detection, predicting horizontal-box distances, RQR3D keypoint targets, centerness, objectness, class logits, height, depth, and velocity.</p>
             </div>
           </div>
           <div class="column is-half">
@@ -190,7 +190,7 @@
           <div class="column is-half">
             <div class="method-card">
               <h3>Lightweight radar backbone</h3>
-              <p>Radar points are projected into a higher-dimensional feature space, mapped directly onto a BEV grid, and processed with dense 2D convolutions instead of sparse-convolution or vox[...]</p>
+              <p>Radar points are projected into a higher-dimensional feature space, mapped directly onto a BEV grid, and processed with dense 2D convolutions instead of sparse-convolution or voxel-grouping pipelines.</p>
             </div>
           </div>
           <div class="column is-half">
